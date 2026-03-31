@@ -97,9 +97,15 @@ function agregarEventos(){
     document.documentElement.style.setProperty('--color-1', colorPicker1.value);
     console.log('color 1')
   });
+
+  const themeToggleBtn = document.getElementById('theme-toggle-btn');
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', toggleTheme);
+  }
 }
 init();
 agregarEventos();
+loadTheme();
 colorear(0);
 obtener_estado();
 
@@ -213,6 +219,35 @@ function obtener_estado() {
     pos++;
   }
   return [txt,posicion];
+}
+
+function applyTheme(theme) {
+  const body = document.body;
+  const themeButton = document.getElementById('theme-toggle-btn');
+
+  if (theme === 'dark') {
+    body.classList.add('dark-mode');
+    themeButton.textContent = '☀️ Modo claro';
+  } else {
+    body.classList.remove('dark-mode');
+    themeButton.textContent = '🌙 Modo oscuro';
+  }
+
+  localStorage.setItem('tm_theme', theme);
+}
+
+function toggleTheme() {
+  const isDark = document.body.classList.contains('dark-mode');
+  applyTheme(isDark ? 'light' : 'dark');
+}
+
+function loadTheme() {
+  const storedTheme = localStorage.getItem('tm_theme');
+  if (storedTheme === 'dark') {
+    applyTheme('dark');
+  } else {
+    applyTheme('light');
+  }
 }
 
 
