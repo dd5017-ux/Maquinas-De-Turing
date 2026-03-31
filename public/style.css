@@ -323,6 +323,13 @@
       color: #fff;
     }
 
+    body.dark-mode .bi-trash,
+    body.dark-mode .btnEliminar i,
+    body.dark-mode .bi.bi-trash {
+      color: #ffdede !important;
+      filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.75));
+    }
+
     body.dark-mode .notification.info {
       background-color: #1565c0;
     }
