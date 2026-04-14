@@ -17,7 +17,12 @@ app.post('/guardar', (req, res) => {
     return res.status(400).send('Faltan datos');
   }
 
-  const ruta = path.join(__dirname, 'public','archivos', nombre);
+  const safeNombre = path.basename(nombre);
+  if (safeNombre !== nombre || safeNombre.includes('..') || /[\\/]/.test(nombre)) {
+    return res.status(400).send('Nombre de archivo inválido');
+  }
+
+  const ruta = path.join(__dirname, 'public', 'archivos', safeNombre);
 
   fs.writeFile(ruta, JSON.stringify(contenido, null, 2), (err) => {
     if (err) {
