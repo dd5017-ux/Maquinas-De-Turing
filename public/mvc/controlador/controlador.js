@@ -354,14 +354,19 @@ function exportarMaquina() {
               contenido: maquina
             })
           })
-          .then(res => res.text())
-          .then(msg => {
-            console.log("Respuesta del servidor:", msg);
+          .then(res => {
+            return res.text().then(msg => ({ ok: res.ok, status: res.status, msg }));
+          })
+          .then(({ ok, status, msg }) => {
+            console.log("Respuesta del servidor:", status, msg);
+            if (!ok) {
+              throw new Error(msg || 'Error en la respuesta del servidor');
+            }
             Swal.fire("Éxito", "La máquina se guardó en el servidor", "success");
           })
           .catch(err => {
             console.error("Error al guardar:", err);
-            Swal.fire("Error", "No se pudo guardar la máquina", "error");
+            Swal.fire("Error", "No se pudo grabar la máquina en el servidor", "error");
           });
         }
       }
